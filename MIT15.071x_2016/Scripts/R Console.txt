@@ -1,0 +1,108 @@
+> wine = read.csv("wine.csv")
+> str(wine)
+'data.frame':	25 obs. of  7 variables:
+ $ Year       : int  1952 1953 1955 1957 1958 1959 1960 1961 1962 1963 ...
+ $ Price      : num  7.5 8.04 7.69 6.98 6.78 ...
+ $ WinterRain : int  600 690 502 420 582 485 763 830 697 608 ...
+ $ AGST       : num  17.1 16.7 17.1 16.1 16.4 ...
+ $ HarvestRain: int  160 80 130 110 187 187 290 38 52 155 ...
+ $ Age        : int  31 30 28 26 25 24 23 22 21 20 ...
+ $ FrancePop  : num  43184 43495 44218 45152 45654 ...
+> model1 = lm(Price ~ AGST, data = wine)
+> summary(model1)
+
+Call:
+lm(formula = Price ~ AGST, data = wine)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.78450 -0.23882 -0.03727  0.38992  0.90318 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  -3.4178     2.4935  -1.371 0.183710    
+AGST          0.6351     0.1509   4.208 0.000335 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.4993 on 23 degrees of freedom
+Multiple R-squared:  0.435,	Adjusted R-squared:  0.4105 
+F-statistic: 17.71 on 1 and 23 DF,  p-value: 0.000335
+
+> model1$Residuals
+NULL
+> model1$residuals
+          1           2           3           4           5           6           7 
+ 0.04204258  0.82983774  0.21169394  0.15609432 -0.23119140  0.38991701 -0.48959140 
+          8           9          10          11          12          13          14 
+ 0.90318115  0.45372410  0.14887461 -0.23882157 -0.08974238  0.66185660 -0.05211511 
+         15          16          17          18          19          20          21 
+-0.62726647 -0.74714947  0.42113502 -0.03727441  0.10685278 -0.78450270 -0.64017590 
+         22          23          24          25 
+-0.05508720 -0.67055321 -0.22040381  0.55866518 
+> SSE = sum (model1$residuals^2)
+> SSE
+[1] 5.734875
+> model2 = lm(Price = AGST + HarvestRain, data = wine)
+Error in lm.fit(x, y, offset = offset, singular.ok = singular.ok, ...) : 
+  object 'AGST' not found
+> model2 = lm(Price ~ AGST + HarvestRain, data = wine)
+> summary(model2)
+
+Call:
+lm(formula = Price ~ AGST + HarvestRain, data = wine)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.88321 -0.19600  0.06178  0.15379  0.59722 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -2.20265    1.85443  -1.188 0.247585    
+AGST         0.60262    0.11128   5.415 1.94e-05 ***
+HarvestRain -0.00457    0.00101  -4.525 0.000167 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.3674 on 22 degrees of freedom
+Multiple R-squared:  0.7074,	Adjusted R-squared:  0.6808 
+F-statistic: 26.59 on 2 and 22 DF,  p-value: 1.347e-06
+
+> SSE = sum(model2$residuals^2)
+> SSE
+[1] 2.970373
+> model3 = lm (Price ~ ., data = wine)
+> summary(model3)
+
+Call:
+lm(formula = Price ~ ., data = wine)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.48179 -0.24662 -0.00726  0.22012  0.51987 
+
+Coefficients: (1 not defined because of singularities)
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  7.092e-01  1.467e+02   0.005 0.996194    
+Year        -5.847e-04  7.900e-02  -0.007 0.994172    
+WinterRain   1.043e-03  5.310e-04   1.963 0.064416 .  
+AGST         6.012e-01  1.030e-01   5.836 1.27e-05 ***
+HarvestRain -3.958e-03  8.751e-04  -4.523 0.000233 ***
+Age                 NA         NA      NA       NA    
+FrancePop   -4.953e-05  1.667e-04  -0.297 0.769578    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.3019 on 19 degrees of freedom
+Multiple R-squared:  0.8294,	Adjusted R-squared:  0.7845 
+F-statistic: 18.47 on 5 and 19 DF,  p-value: 1.044e-06
+
+> SSE = sum(model3$residuals)
+> SSE
+[1] -6.938894e-18
+> SSE = sum(model3$residuals^2)
+> SSE
+[1] 1.732113
+2016-05-03 21:38:48.625 R[16928:5782602] plugin com.adobe.accmac.ACCFinderSync invalidated
+2016-05-03 21:38:48.628 R[16928:5782520] plugin com.getdropbox.dropbox.garcon invalidated
+> 
